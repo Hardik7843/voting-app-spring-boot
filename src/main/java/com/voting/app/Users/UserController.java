@@ -1,0 +1,35 @@
+package com.voting.app.Users;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/profile/{id}")
+    public User getUserProfile(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
+    @PostMapping("/register")
+    public User registerUser(@RequestBody User user) {
+
+        System.err.println("email: " + user.getEmail());
+        System.err.println("password: " + user.getPassword());
+        System.err.println("phone: " + user.getPhone());
+        System.err.println("name: " + user.getName());
+        return userService.createUser(user.getName(), user.getPhone(), user.getPassword(), user.getEmail());
+    }
+
+}
