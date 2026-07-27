@@ -24,8 +24,13 @@ public class UserController {
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
 
-        return userService.createUser(user.getName(), user.getPhone(), user.getPassword(), user.getEmail());
+    @PostMapping("/login")
+    public String loginUser(@RequestBody User user) {
+        User u = userService.loginUser(user);
+
     }
 
 }
