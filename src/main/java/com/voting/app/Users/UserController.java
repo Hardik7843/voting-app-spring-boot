@@ -25,10 +25,6 @@ public class UserController {
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
 
-        System.err.println("email: " + user.getEmail());
-        System.err.println("password: " + user.getPassword());
-        System.err.println("phone: " + user.getPhone());
-        System.err.println("name: " + user.getName());
         return userService.createUser(user.getName(), user.getPhone(), user.getPassword(), user.getEmail());
     }
 
