@@ -10,7 +10,12 @@ public class PartyService {
         this.partyRepository = partyRepository;
     }
 
-    public Party getPartyDetail(String id) {
-        return partyRepository.findParty(id);
+    public Party getPartyDetail(Integer id) {
+        return partyRepository.findPartyById(id);
+
+    }
+
+    public Party createNew(Party party) {
+        return partyRepository.save(party);
     }
 }
