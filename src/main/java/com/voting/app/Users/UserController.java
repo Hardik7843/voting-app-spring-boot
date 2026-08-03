@@ -43,6 +43,9 @@ public class UserController {
         User u = userService.loginUser(user);
         String jwtToken = jwtService.generateToken(u.getEmail());
 
+        String s = "hii";
+
+
         ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
                 .secure(true)
