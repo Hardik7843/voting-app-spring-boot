@@ -2,6 +2,8 @@ package com.voting.app.Users;
 
 import java.time.Duration;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +51,24 @@ public class UserController {
                 .sameSite("Strict")
                 .build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getUserSession(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        if(cookies.length == 0){
+            return ResponseEntity.status(401).body("No Cookies Found");
+        }
+
+        String token = cookies[0].getValue();
+
+        String subject = jwtService.isTokenValid(token);
+
+        User user = userService.getUserByEmail(subject);
+
+        return ResponseEntity.status(200).body(user);
+
     }
 
 }

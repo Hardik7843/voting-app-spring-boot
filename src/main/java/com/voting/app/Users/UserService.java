@@ -18,6 +18,10 @@ public class UserService {
         return repository.findUserById(id);
     }
 
+    public User getUserByEmail(String email) {
+        return repository.findUserByEmail(email);
+    }
+
     public User createUser(User user) {
         User u = new User(user.getEmail(), user.getName(), user.getPhone(), passwordEncoder.encode(user.getPassword()));
 
