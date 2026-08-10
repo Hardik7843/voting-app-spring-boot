@@ -1,14 +1,8 @@
 package com.voting.app.Votes;
 
-
-import com.voting.app.JwtService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -24,11 +18,18 @@ public class VoteController {
     }
 
     @PostMapping("/vote")
-    public ResponseEntity<?> createVote(Vote vote)
-    {
+    public ResponseEntity<?> createVote(Vote vote) {
         Optional<Vote> savedVote = voteService.DoVoting(vote);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVote);
+    }
+
+    @PutMapping("/unvote/{voteId}")
+    public ResponseEntity<?> unVote(@PathVariable() Integer voteId) {
+        Optional<Vote> deletedVote = voteService.UnDoVoting(voteId);
+        if (!deletedVote.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vote Not Found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(deletedVote);
     }
 
 
