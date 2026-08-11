@@ -1,5 +1,7 @@
 package com.voting.app.Votes;
 
+import com.voting.app.Parties.Party;
+import com.voting.app.Parties.PartyService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -7,13 +9,21 @@ import java.util.Optional;
 @Service
 public class VoteService {
     private final VoteRepository voteRepository;
+    private final PartyService partyService;
 
-    public VoteService(VoteRepository voteRepository) {
+
+    public VoteService(VoteRepository voteRepository, PartyService partyService) {
         this.voteRepository = voteRepository;
+        this.partyService = partyService;
     }
 
-
     public Optional<Vote> DoVoting(Vote vote) {
+        Party party = partyService.getPartyDetail(vote.getPartyId());
+
+        if (party == null) {
+            throw new IllegalStateException("Party does not exist");
+        }
+
         Optional<Vote> newVote = voteRepository.findVoteByUserIdAndPartyId(vote.getUserId(), vote.getPartyId());
         if (newVote.isPresent()) {
             throw new IllegalStateException("Vote Already Exists");

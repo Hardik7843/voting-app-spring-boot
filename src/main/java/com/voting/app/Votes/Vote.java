@@ -1,10 +1,6 @@
 package com.voting.app.Votes;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity(name = "votes")
 public class Vote {
@@ -19,9 +15,7 @@ public class Vote {
     @Column
     private Integer partyId;
 
-
-    public String getUserId() {
-        return userId;
+    public Vote() {
     }
 
     public Vote(String userId, Integer partyId) {
@@ -29,7 +23,9 @@ public class Vote {
         this.partyId = partyId;
     }
 
-
+    public String getUserId() {
+        return userId;
+    }
 
     public void setUserId(String userId) {
         this.userId = userId;

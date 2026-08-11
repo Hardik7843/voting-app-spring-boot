@@ -19,8 +19,14 @@ public class VoteController {
 
     @PostMapping("/vote")
     public ResponseEntity<?> createVote(Vote vote) {
+
         Optional<Vote> savedVote = voteService.DoVoting(vote);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedVote);
+
+        if (savedVote.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedVote.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PutMapping("/unvote/{voteId}")
@@ -32,5 +38,12 @@ public class VoteController {
         return ResponseEntity.status(HttpStatus.OK).body(deletedVote);
     }
 
-
+    @GetMapping("/vote/{id}")
+    public ResponseEntity<?> getVote(@PathVariable() Integer id) {
+        Optional<Vote> vote = voteService.getVotingDetail(id);
+        if (!vote.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vote detail not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(vote);
+    }
 }
