@@ -1,10 +1,7 @@
 package com.voting.app.Users;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.voting.app.Votes.Vote;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
@@ -23,6 +20,9 @@ public class User {
     @Email
     private String email;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Vote vote;
+
     @Column
     private String password;
 
@@ -33,18 +33,18 @@ public class User {
     public User() {
     }
 
+    public User(String email, String name, String phone, String password) {
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.password = password;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User(String email, String name, String phone, String password) {
-        this.email = email;
-        this.name = name;
-        this.phone = phone;
         this.password = password;
     }
 
@@ -80,4 +80,11 @@ public class User {
         this.phone = phone;
     }
 
+    public Vote getVote() {
+        return vote;
+    }
+
+    public void setVote(Vote vote) {
+        this.vote = vote;
+    }
 }

@@ -1,11 +1,11 @@
 package com.voting.app.Parties;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.voting.app.Votes.Vote;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "parties")
 public class Party {
@@ -17,6 +17,9 @@ public class Party {
     @Column
     @Size(min = 2)
     private String name;
+
+    @OneToMany(mappedBy = "party", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Vote> votes = new ArrayList<>();
 
     @Column(unique = true)
     @Size(min = 2)
@@ -54,4 +57,11 @@ public class Party {
         this.code = code;
     }
 
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
 }

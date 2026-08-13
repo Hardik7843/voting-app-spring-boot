@@ -1,5 +1,7 @@
 package com.voting.app.Votes;
 
+import com.voting.app.Parties.Party;
+import com.voting.app.Users.User;
 import jakarta.persistence.*;
 
 @Entity(name = "votes")
@@ -9,26 +11,28 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @Column
-    private String userId;
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
-    @Column
-    private Integer partyId;
+    @ManyToOne
+    @JoinColumn(name = "party_id", nullable = false)
+    private Party party;
 
     public Vote() {
     }
 
-    public Vote(String userId, Integer partyId) {
-        this.userId = userId;
-        this.partyId = partyId;
+    public Vote(User user, Party party) {
+        this.user = user;
+        this.party = party;
     }
 
     public String getUserId() {
-        return userId;
+        return this.user.getId();
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -40,11 +44,19 @@ public class Vote {
     }
 
     public Integer getPartyId() {
-        return partyId;
+        return this.party.getId();
     }
 
-    public void setPartyId(Integer partyId) {
-        this.partyId = partyId;
+
+    public void setPartyId(Party party) {
+        this.party = party;
     }
 
+    public Party getParty() {
+        return party;
+    }
+
+    public void setParty(Party party) {
+        this.party = party;
+    }
 }
