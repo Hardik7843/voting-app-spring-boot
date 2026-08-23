@@ -1,7 +1,9 @@
-package com.voting.app.Parties;
+package com.voting.app.Services;
 
+import com.voting.app.Entities.Party;
 import com.voting.app.Exceptions.ResourceConflict;
 import com.voting.app.Exceptions.ResourceNotFound;
+import com.voting.app.Repositories.PartyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,5 +1,6 @@
-package com.voting.app.Users;
+package com.voting.app.Repositories;
 
+import com.voting.app.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, String> {

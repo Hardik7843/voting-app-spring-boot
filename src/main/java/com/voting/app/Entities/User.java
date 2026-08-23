@@ -1,6 +1,5 @@
-package com.voting.app.Users;
+package com.voting.app.Entities;
 
-import com.voting.app.Votes.Vote;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

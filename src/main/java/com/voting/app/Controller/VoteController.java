@@ -1,5 +1,7 @@
-package com.voting.app.Votes;
+package com.voting.app.Controller;
 
+import com.voting.app.Entities.Vote;
+import com.voting.app.Services.VoteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

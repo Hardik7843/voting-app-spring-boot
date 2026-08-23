@@ -1,5 +1,7 @@
-package com.voting.app.Parties;
+package com.voting.app.Controller;
 
+import com.voting.app.Entities.Party;
+import com.voting.app.Services.PartyService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

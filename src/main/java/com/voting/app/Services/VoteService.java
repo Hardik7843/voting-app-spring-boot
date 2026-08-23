@@ -1,7 +1,8 @@
-package com.voting.app.Votes;
+package com.voting.app.Services;
 
-import com.voting.app.Parties.Party;
-import com.voting.app.Parties.PartyService;
+import com.voting.app.Entities.Party;
+import com.voting.app.Entities.Vote;
+import com.voting.app.Repositories.VoteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

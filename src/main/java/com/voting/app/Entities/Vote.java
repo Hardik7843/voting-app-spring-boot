@@ -1,7 +1,5 @@
-package com.voting.app.Votes;
+package com.voting.app.Entities;
 
-import com.voting.app.Parties.Party;
-import com.voting.app.Users.User;
 import jakarta.persistence.*;
 
 @Entity(name = "votes")

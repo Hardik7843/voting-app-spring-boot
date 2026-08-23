@@ -1,20 +1,16 @@
-package com.voting.app.Users;
+package com.voting.app.Controller;
 
-import java.time.Duration;
-
+import com.voting.app.Entities.User;
+import com.voting.app.JwtService;
+import com.voting.app.Services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.voting.app.JwtService;
+import java.time.Duration;
 
 @RestController
 @RequestMapping("/users")
@@ -44,7 +40,6 @@ public class UserController {
         String jwtToken = jwtService.generateToken(u.getEmail());
 
 
-
         ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
                 .secure(true)
@@ -59,7 +54,7 @@ public class UserController {
     public ResponseEntity<?> getUserSession(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
-        if(cookies.length == 0){
+        if (cookies.length == 0) {
             return ResponseEntity.status(401).body("No Cookies Found");
         }
 

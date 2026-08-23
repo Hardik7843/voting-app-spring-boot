@@ -1,5 +1,7 @@
-package com.voting.app.Users;
+package com.voting.app.Services;
 
+import com.voting.app.Entities.User;
+import com.voting.app.Repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

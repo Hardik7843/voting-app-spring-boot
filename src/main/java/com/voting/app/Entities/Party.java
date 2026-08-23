@@ -1,7 +1,6 @@
-package com.voting.app.Parties;
+package com.voting.app.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.voting.app.Votes.Vote;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
