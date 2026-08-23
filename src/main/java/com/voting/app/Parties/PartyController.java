@@ -1,14 +1,10 @@
 package com.voting.app.Parties;
 
-import java.net.URI;
-
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/party")
@@ -20,7 +16,7 @@ public class PartyController {
         this.partyService = partyService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[0-9]+}")
     public ResponseEntity<Party> getPartyDetail(@PathVariable Integer id) {
         Party party = partyService.getPartyDetail(id);
 
@@ -28,10 +24,10 @@ public class PartyController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Party> registerParty(@RequestBody Party party) {
+    public ResponseEntity<Party> registerParty(@RequestBody @Valid Party party) {
 
         Party createdParty = partyService.createNew(party);
-        URI location = URI.create("/party/" + createdParty.getId());
+        URI location = URI.create("/party/" + createdParty.getId().toString());
 
         return ResponseEntity.created(location).body(createdParty);
     }

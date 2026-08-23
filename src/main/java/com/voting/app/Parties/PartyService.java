@@ -1,6 +1,10 @@
 package com.voting.app.Parties;
 
+import com.voting.app.Exceptions.ResourceConflict;
+import com.voting.app.Exceptions.ResourceNotFound;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class PartyService {
@@ -11,11 +15,20 @@ public class PartyService {
     }
 
     public Party getPartyDetail(Integer id) {
-        return partyRepository.findPartyById(id);
-
+        Party party = partyRepository.findPartyById(id);
+        if (party == null) {
+            throw new ResourceNotFound("Party not found");
+        }
+        return party;
     }
 
     public Party createNew(Party party) {
+
+        Optional<Party> existingParty = partyRepository.findPartyByCode(party.getCode());
+        if (existingParty.isPresent()) {
+            throw new ResourceConflict("Party already exists");
+        }
+
         return partyRepository.save(party);
     }
 }
