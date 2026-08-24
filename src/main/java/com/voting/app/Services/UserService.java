@@ -1,6 +1,8 @@
 package com.voting.app.Services;
 
 import com.voting.app.Entities.User;
+import com.voting.app.Exceptions.ResourceConflict;
+import com.voting.app.Exceptions.ResourceNotFound;
 import com.voting.app.Repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,29 @@ public class UserService {
     }
 
     public User getUser(String id) {
-        return repository.findUserById(id);
+        User user = repository.findUserById(id);
+        if (user == null) {
+            throw new ResourceNotFound("User not found");
+        }
+        return user;
     }
 
     public User getUserByEmail(String email) {
-        return repository.findUserByEmail(email);
+
+        User user = repository.findUserByEmail(email);
+
+        if (user == null) {
+            throw new ResourceNotFound("User not found");
+        }
+        return user;
     }
 
     public User createUser(User user) {
+        User existingUser = repository.findUserByEmail(user.getEmail());
+        if (existingUser != null) {
+            throw new ResourceConflict("User with email already exists");
+        }
+
         User u = new User(user.getEmail(), user.getName(), user.getPhone(), passwordEncoder.encode(user.getPassword()));
 
         User savedUser = repository.save(u);

@@ -5,6 +5,7 @@ import com.voting.app.JwtService;
 import com.voting.app.Services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +25,18 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @GetMapping("/profile/{id}")
+    @GetMapping("/profile/{id:[0-9]+}")
     public User getUserProfile(@PathVariable String id) {
         return userService.getUser(id);
     }
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
+    public User registerUser(@RequestBody @Valid User user) {
         return userService.createUser(user);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody User user) {
+    public ResponseEntity<Void> loginUser(@RequestBody @Valid User user) {
         User u = userService.loginUser(user);
         String jwtToken = jwtService.generateToken(u.getEmail());
 

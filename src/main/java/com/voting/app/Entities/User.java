@@ -2,6 +2,7 @@ package com.voting.app.Entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity(name = "users")
@@ -12,10 +13,12 @@ public class User {
     private String id;
 
     @Column
+    @NotNull(message = "name can't be null")
     @Size(min = 3)
     private String name;
 
     @Column(unique = true)
+    @NotNull(message = "email can't be null")
     @Email
     private String email;
 
@@ -23,9 +26,11 @@ public class User {
     private Vote vote;
 
     @Column
+    @NotNull(message = "password can't be null")
     private String password;
 
     @Column(unique = true)
+    @NotNull(message = "phone number can't be null")
     @Size(min = 10, max = 12)
     private String phone;
 

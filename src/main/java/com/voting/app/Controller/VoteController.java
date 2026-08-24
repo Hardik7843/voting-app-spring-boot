@@ -2,6 +2,7 @@ package com.voting.app.Controller;
 
 import com.voting.app.Entities.Vote;
 import com.voting.app.Services.VoteService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class VoteController {
     }
 
     @PostMapping("/vote")
-    public ResponseEntity<?> createVote(Vote vote) {
+    public ResponseEntity<?> createVote(@RequestBody @Valid Vote vote) {
 
         Optional<Vote> savedVote = voteService.DoVoting(vote);
 

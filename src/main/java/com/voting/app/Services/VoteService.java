@@ -2,6 +2,8 @@ package com.voting.app.Services;
 
 import com.voting.app.Entities.Party;
 import com.voting.app.Entities.Vote;
+import com.voting.app.Exceptions.ResourceConflict;
+import com.voting.app.Exceptions.ResourceNotFound;
 import com.voting.app.Repositories.VoteRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +24,12 @@ public class VoteService {
         Party party = partyService.getPartyDetail(vote.getPartyId());
 
         if (party == null) {
-            throw new IllegalStateException("Party does not exist");
+            throw new ResourceNotFound("Party does not exist");
         }
 
         Optional<Vote> newVote = voteRepository.findVoteByUserIdAndPartyId(vote.getUserId(), vote.getPartyId());
         if (newVote.isPresent()) {
-            throw new IllegalStateException("Vote Already Exists");
+            throw new ResourceConflict("Vote Already Exists");
         }
         return Optional.of(voteRepository.save(vote));
 
