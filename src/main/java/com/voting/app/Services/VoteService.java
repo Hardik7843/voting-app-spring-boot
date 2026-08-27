@@ -20,7 +20,7 @@ public class VoteService {
         this.partyService = partyService;
     }
 
-    public Optional<Vote> DoVoting(Vote vote) {
+    public Vote doVoting(Vote vote) {
         Party party = partyService.getPartyDetail(vote.getPartyId());
 
         if (party == null) {
@@ -31,11 +31,11 @@ public class VoteService {
         if (newVote.isPresent()) {
             throw new ResourceConflict("Vote Already Exists");
         }
-        return Optional.of(voteRepository.save(vote));
 
+        return voteRepository.save(vote);
     }
 
-    public Optional<Vote> UnDoVoting(Integer voteId) {
+    public Optional<Vote> unDoVoting(Integer voteId) {
 
         Optional<Vote> deletedVote = voteRepository.findById(voteId);
         deletedVote.ifPresent(voteRepository::delete);

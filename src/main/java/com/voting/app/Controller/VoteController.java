@@ -2,6 +2,7 @@ package com.voting.app.Controller;
 
 import com.voting.app.Entities.Vote;
 import com.voting.app.Services.VoteService;
+import com.voting.app.payload.ApiResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +22,17 @@ public class VoteController {
     }
 
     @PostMapping("/vote")
-    public ResponseEntity<?> createVote(@RequestBody @Valid Vote vote) {
+    public ResponseEntity<ApiResponseDto<Vote>> createVote(@RequestBody @Valid Vote vote) {
 
-        Optional<Vote> savedVote = voteService.DoVoting(vote);
+        Vote savedVote = voteService.doVoting(vote);
+        ApiResponseDto<Vote> response = new ApiResponseDto<>(HttpStatus.CREATED.value(), "Vote Created", savedVote);
 
-        if (savedVote.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedVote.get());
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/unvote/{voteId}")
     public ResponseEntity<?> unVote(@PathVariable() Integer voteId) {
-        Optional<Vote> deletedVote = voteService.UnDoVoting(voteId);
+        Optional<Vote> deletedVote = voteService.unDoVoting(voteId);
         if (!deletedVote.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vote Not Found");
         }
