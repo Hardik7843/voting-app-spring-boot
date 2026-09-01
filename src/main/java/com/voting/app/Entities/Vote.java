@@ -1,8 +1,12 @@
 package com.voting.app.Entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name = "votes")
+@Getter
+@Setter
 public class Vote {
 
     @Id
@@ -29,32 +33,32 @@ public class Vote {
         return this.user.getId();
     }
 
-    public void setUserId(User user) {
-        this.user = user;
-    }
+//    public void setUserId(User user) {
+//        this.user = user;
+//    }
+//
+//    public int getId() {
+//        return id;
+//    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public Integer getPartyId() {
         return this.party.getId();
     }
 
 
-    public void setPartyId(Party party) {
-        this.party = party;
-    }
-
-    public Party getParty() {
-        return party;
-    }
-
-    public void setParty(Party party) {
-        this.party = party;
-    }
+//    public void setPartyId(Party party) {
+//        this.party = party;
+//    }
+//
+//    public Party getParty() {
+//        return party;
+//    }
+//
+//    public void setParty(Party party) {
+//        this.party = party;
+//    }
 }

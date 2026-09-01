@@ -3,12 +3,13 @@ package com.voting.app.Controller;
 import com.voting.app.Entities.User;
 import com.voting.app.JwtService;
 import com.voting.app.Services.UserService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -53,17 +54,12 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getUserSession(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies.length == 0) {
-            return ResponseEntity.status(401).body("No Cookies Found");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Not authenticated");
         }
 
-        String token = cookies[0].getValue();
-
-        String subject = jwtService.isTokenValid(token);
-
-        User user = userService.getUserByEmail(subject);
+        User user = (User) auth.getPrincipal(); // exact same object fetched in the filter
 
         return ResponseEntity.status(200).body(user);
 

@@ -28,21 +28,19 @@ public class UserService {
 
     public User getUserByEmail(String email) {
 
-        User user = repository.findUserByEmail(email);
+        User user = repository.findUserByEmail(email).orElseThrow(
+                () -> new ResourceNotFound("User not found")
+        );
 
-        if (user == null) {
-            throw new ResourceNotFound("User not found");
-        }
         return user;
     }
 
     public User createUser(User user) {
-        User existingUser = repository.findUserByEmail(user.getEmail());
-        if (existingUser != null) {
-            throw new ResourceConflict("User with email already exists");
-        }
+        User existingUser = repository.findUserByEmail(user.getEmail()).orElseThrow(
+                () -> new ResourceConflict("User with email already exists"));
 
-        User u = new User(user.getEmail(), user.getName(), user.getPhone(), passwordEncoder.encode(user.getPassword()));
+
+        User u = new User(user.getEmail(), user.getName(), user.getRole(), passwordEncoder.encode(user.getPassword()));
 
         User savedUser = repository.save(u);
         return savedUser;
@@ -50,11 +48,9 @@ public class UserService {
 
     public User loginUser(User u) {
 
-        User user = repository.findUserByEmail(u.getEmail());
+        User user = repository.findUserByEmail(u.getEmail()).orElseThrow(
+                () -> new RuntimeException("Invalid email or password"));
 
-        if (user == null) {
-            throw new RuntimeException("Invalid email or password");
-        }
 
         Boolean matchedPass = passwordEncoder.matches(u.getPassword(), user.getPassword());
 
